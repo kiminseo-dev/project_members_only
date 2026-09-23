@@ -1,16 +1,45 @@
 const pool = require("../db/pool");
+const bcrypt = require("bcrypt");
 
 function getHomePage(req, res) {
   res.render("index");
 }
 
 function getSignupForm(req, res) {
-  res.render("sign-up");
+  res.render("sign-up", { user: null, error: null });
 }
 
-function createUser(req, res) {
-  console.log(req.body);
-  res.send("sign up completed");
+async function createUser(req, res) {
+  const user = req.body;
+  try {
+    if (
+      !user.first_name ||
+      !user.last_name ||
+      !user.username ||
+      !user.password
+    ) {
+      return res.status(400).send("All fields are required");
+    }
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    await pool.query(
+      `
+    INSERT INTO users (first_name, last_name, username, password) VALUES ($1, $2, $3, $4)
+  `,
+      [user.first_name, user.last_name, user.username, hashedPassword],
+    );
+    res.redirect("/");
+  } catch (err) {
+    if (err.code === "23505") {
+      return res.render("sign-up", {
+        user,
+        error: "Username is already taken",
+      });
+    }
+    
+    console.error(err);
+    res.status(500).send("Something went wrong");
+  }
 }
 
 module.exports = {

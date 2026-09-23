@@ -7,15 +7,18 @@
   </head>
   <body>
     <form action="/sign-up" method="post">
-        <label for="first_name">First Name:</label>
-        <input id="first_name" name="first_name"/>
-        <label for="last_name">Last Name:</label>
-        <input id="last_name" name="last_name" />
-        <label for="email">Email:</label>
-        <input id="email" name="email" />
-        <label for="password">Password:</label>
-        <input id="password" name="password" />
-        <button>Sign Up</button>
+      <label for="first_name">First Name:</label>
+      <input id="first_name" name="first_name" value="<%= user ? user.first_name : '' %>" required />
+      <label for="last_name">Last Name:</label>
+      <input id="last_name" name="last_name" value="<%= user ? user.last_name : '' %>" required />
+      <label for="username">Username or Email:</label>
+      <input id="username" name="username" value="<%= user ? user.username : '' %>" required />
+      <% if (error) { %>
+      <p><%= error %></p>
+      <% } %>
+      <label for="password">Password:</label>
+      <input id="password" name="password" type="password" value="<%= user ? user.password : '' %>" required />
+      <button>Sign Up</button>
     </form>
   </body>
 </html>
