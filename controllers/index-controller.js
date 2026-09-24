@@ -1,3 +1,4 @@
+const passport = require("passport");
 const pool = require("../db/pool");
 const bcrypt = require("bcrypt");
 
@@ -5,7 +6,7 @@ function getHomePage(req, res) {
   res.render("index");
 }
 
-function getSignupForm(req, res) {
+function getSignupPage(req, res) {
   res.render("sign-up", { user: null, error: null });
 }
 
@@ -36,14 +37,19 @@ async function createUser(req, res) {
         error: "Username is already taken",
       });
     }
-    
+
     console.error(err);
     res.status(500).send("Something went wrong");
   }
 }
 
+function getLoginPage(req, res) {
+  res.render("log-in");
+}
+
 module.exports = {
   getHomePage,
-  getSignupForm,
+  getSignupPage,
   createUser,
+  getLoginPage,
 };
