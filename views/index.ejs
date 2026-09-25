@@ -6,7 +6,7 @@
     <title>Members Only</title>
   </head>
   <body>
-    <h1>Hello World</h1>
+    <h1>Hello <%= user ? user.first_name : "Guest" %></h1>
     <a href="sign-up">Sign up</a>
     <a href="/log-in">Log in</a>
   </body>

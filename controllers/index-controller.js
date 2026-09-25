@@ -3,7 +3,8 @@ const pool = require("../db/pool");
 const bcrypt = require("bcrypt");
 
 function getHomePage(req, res) {
-  res.render("index");
+  console.log(req.user);
+  res.render("index", { user: req.user });
 }
 
 function getSignupPage(req, res) {

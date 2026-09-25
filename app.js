@@ -4,6 +4,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+const pgSession = require("connect-pg-simple")(session);
 
 const pool = require("./db/pool");
 
@@ -20,6 +21,7 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
+    store: new pgSession({ pool: pool }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
