@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+</head>
+<body>
+    <hr>
+    <% messages.forEach(message => { %>
+        <p><%= message.title %></p>
+        <p><%= message.text %></p>
+        <p><%= message.time %></p>
+        <p><%= message.username %></p>
+        <% if(user.admin) { %>
+        <a href="/message/delete/<%= message.id %>" onclick="return confirm('Confirm to delete message')">Delete</a>
+        <% } %>
+        <hr>
+        <% })%>
+   <a href="/message/new">Create New Message</a>
+</body>
+</html>

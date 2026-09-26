@@ -17,4 +17,14 @@ indexRouter.post(
   }),
 );
 
+indexRouter.get("/join", indexController.getActivationPage);
+indexRouter.post("/join", indexController.activateMembership);
+
+indexRouter.post("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) return res.status(500).send("Something went wrong");
+    res.redirect("/");
+  });
+});
+
 module.exports = indexRouter;

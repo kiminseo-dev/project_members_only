@@ -1,9 +1,9 @@
 const passport = require("passport");
 const pool = require("../db/pool");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 function getHomePage(req, res) {
-  console.log(req.user);
   res.render("index", { user: req.user });
 }
 
@@ -48,9 +48,44 @@ function getLoginPage(req, res) {
   res.render("log-in");
 }
 
+function getActivationPage(req, res) {
+  res.render("join");
+}
+
+async function activateMembership(req, res) {
+  if (!req.user) {
+    res.redirect("/log-in");
+  }
+
+  const code = req.body.code;
+  if (code === process.env.MEMBER_CODE) {
+    await pool.query(
+      `
+      UPDATE users
+      SET member = true
+      WHERE id = $1
+    `,
+      [req.user.id],
+    );
+  } else if (code === process.env.ADMIN_CODE) {
+    await pool.query(
+      `
+      UPDATE users
+      SET member = true, admin = true
+      WHERE id = $1
+      `,
+      [req.user.id],
+    );
+  }
+
+  res.redirect("/");
+}
+
 module.exports = {
   getHomePage,
   getSignupPage,
   createUser,
   getLoginPage,
+  getActivationPage,
+  activateMembership,
 };

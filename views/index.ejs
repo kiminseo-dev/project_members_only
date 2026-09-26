@@ -9,5 +9,9 @@
     <h1>Hello <%= user ? user.first_name : "Guest" %></h1>
     <a href="sign-up">Sign up</a>
     <a href="/log-in">Log in</a>
+    <a href="/message">Messages</a>
+    <form action="/logout" method="POST">
+      <button>Log out</button>
+    </form>
   </body>
 </html>
