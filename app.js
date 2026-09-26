@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 const indexRouter = require("./routes/index-router");
+const messageRouter = require("./routes/message-router");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -82,6 +83,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 app.use("/", indexRouter);
+app.use("/message", messageRouter);
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
